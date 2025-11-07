@@ -1,15 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ThermoBuddy 🌈</title>
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: "Poppins", sans-serif;
       background: linear-gradient(to bottom right, #d4ecff, #fefefe);
       margin: 0;
-      padding: 0;
       text-align: center;
       color: #333;
     }
@@ -27,9 +26,7 @@
       margin-bottom: 0.5rem;
     }
 
-    h2 {
-      color: #4c6fff;
-    }
+    h2 { color: #4c6fff; }
 
     .inventors {
       font-style: italic;
@@ -56,15 +53,9 @@
       max-width: 600px;
     }
 
-    .fun-facts h3 {
-      color: #4c6fff;
-      margin-bottom: 0.5rem;
-    }
+    .fun-facts h3 { color: #4c6fff; }
 
-    .animals {
-      font-size: 2rem;
-      margin: 1rem 0;
-    }
+    .animals { font-size: 2rem; margin: 1rem 0; }
 
     footer {
       background-color: #7a9eff;
@@ -92,11 +83,6 @@
     .cool { background: linear-gradient(135deg, #8a9cff, #c5d0ff); }
     .warm { background: linear-gradient(135deg, #ffffff, #f9f9f9); }
 
-    .edu {
-      text-align: left;
-      margin-top: 1rem;
-    }
-
     button {
       background: #7a9eff;
       border: none;
@@ -113,10 +99,25 @@
       background: #557aff;
       transform: scale(1.05);
     }
+
+    input, select {
+      padding: 0.6rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .buy-box {
+      background: #eef5ff;
+      padding: 1.5rem;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-top: 1rem;
+    }
   </style>
 </head>
 <body>
-
   <header>
     <h1>🌈 Meet ThermoBuddy!</h1>
     <p class="inventors">Invented by Allison, Emily, and Ella</p>
@@ -125,7 +126,8 @@
 
   <div class="section">
     <h2>What is ThermoBuddy?</h2>
-    <p>ThermoBuddy is a fun, 3D-printed desk companion that reacts to temperature changes! It glows <strong>violet-blue</strong> when it’s under 25°C and turns <strong>white</strong> when it’s warmer.</p>
+    <p>ThermoBuddy is a 3D-printed desk companion that reacts to temperature changes!</p>
+    <p>It glows <strong>violet-blue</strong> when it’s under 25 °C and turns <strong>white</strong> when it’s warmer.</p>
     <div class="color-display">
       <div class="color-box cool"></div>
       <div class="color-box warm"></div>
@@ -135,10 +137,8 @@
 
   <div class="section">
     <h2>Why You'll Love It</h2>
-    <div class="animals">
-      🐧 ❄️ 🐻‍❄️ 🦊 ☀️
-    </div>
-    <p>ThermoBuddy helps you learn how temperature affects materials — and looks adorable while doing it! It’s perfect for students, makers, and anyone who wants a friendly little buddy on their desk.</p>
+    <div class="animals">🐧 ❄️ 🐻‍❄️ 🦊 ☀️</div>
+    <p>ThermoBuddy helps you explore how temperature affects materials — and looks adorable while doing it! It’s perfect for students, makers, and anyone who wants a friendly little buddy on their desk.</p>
     <button onclick="alert('ThermoBuddy loves warm hugs! 🤍')">Say Hi to ThermoBuddy!</button>
   </div>
 
@@ -152,14 +152,28 @@
     </ul>
   </div>
 
-  <div class="section edu">
-    <h2>STEM + Art = STEAM 🎨🔬</h2>
-    <p>ThermoBuddy blends science, technology, engineering, art, and math in one fun project. From 3D printing its body to understanding heat and color changes, you’ll learn how creativity and science come together!</p>
+  <div class="section">
+    <h2>Buy Your Own ThermoBuddy! 🛒</h2>
+    <p>Bring science and creativity to your workspace — and get your very own ThermoBuddy today!</p>
+    <div class="buy-box">
+      <form onsubmit="event.preventDefault(); alert('Thanks for your interest in ThermoBuddy! Orders are coming soon 💜');">
+        <label for="color">Choose a style:</label>
+        <select id="color" name="color">
+          <option>Classic Violet-Blue</option>
+          <option>Snow-White Edition</option>
+          <option>Galaxy Glow Mix</option>
+        </select><br/>
+        <label for="qty">Quantity:</label>
+        <input type="number" id="qty" name="qty" min="1" value="1" /><br/>
+        <button type="submit">Buy ThermoBuddy 💜</button>
+      </form>
+    </div>
+    <p><small>*Demo only – this is a showcase website for a student project.*</small></p>
   </div>
 
   <footer>
-    <p>© 2025 ThermoBuddy | Created by Allison, Emily, and Ella 💖</p>
+    <p>© 2025 ThermoBuddy | Created by Allison, Emily & Ella 💖</p>
   </footer>
-
 </body>
 </html>
+
