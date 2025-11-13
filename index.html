@@ -1,259 +1,279 @@
-<!DOCTYPE html>
+# Retry writing the HTML content, fixing the Python triple-quoted string formatting issue by avoiding unescaped braces in CSS.
+from pathlib import Path
+import base64, textwrap
+
+logo_path = "/mnt/data/A_logo_for_\"ThermoBuddy\"_is_set_against_a_plain_wh.png"
+elephant_path = "/mnt/data/A_webpage_for_ThermoBuddy,_a_color-changing_desk_c.png"
+def encode_image(path):
+    p = Path(path)
+    if not p.exists():
+        raise FileNotFoundError(f"Image not found: {path}")
+    return base64.b64encode(p.read_bytes()).decode("utf-8")
+
+logo_b64 = encode_image(logo_path)
+elephant_b64 = encode_image(elephant_path)
+
+# Build HTML safely by using textwrap.dedent and replacing braces to avoid Python format issues.
+html_template = textwrap.dedent("""
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ThermoBuddy 🌈 — Your Color-Changing Desk Friend</title>
-  <style>
-    :root {
-      --accent: #7a9eff;
-      --accent-2: #557aff;
-      --bg1: #dce8ff;
-      --bg2: #f9fbff;
-      --card: #ffffff;
-      --muted: #666;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Inter', system-ui, -apple-system, 'Poppins', Roboto, sans-serif;
-      background: linear-gradient(180deg, var(--bg1), var(--bg2));
-      color: #111;
-      -webkit-font-smoothing: antialiased;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ThermoBuddy — Color-Changing Desk Buddy</title>
+<style>
+  :root{
+    --accent: #7a9eff;
+    --accent-2: #557aff;
+    --bg1: #e8f1ff;
+    --bg2: #fbfdff;
+    --card: #ffffff;
+    --muted: #555;
+    --radius: 14px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter, system-ui, -apple-system, 'Poppins', Roboto, 'Segoe UI', sans-serif;
+        -webkit-font-smoothing:antialiased;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#17233b;}
+  header{display:flex;align-items:center;gap:16px;max-width:1100px;margin:26px auto;padding:8px 18px;}
+  .logo-img{width:140px;height:auto;flex:0 0 140px;}
+  .site-title{display:flex;flex-direction:column;gap:4px}
+  h1.site-name{font-size:22px;margin:0;color:#1b2a56;letter-spacing:0.2px}
+  p.site-tag{margin:0;color:var(--muted);font-size:14px}
 
-    header {
-      text-align: center;
-      padding: 3rem 1rem 2rem;
-    }
-    header h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      background: linear-gradient(90deg, #7a9eff, #b0c4ff);
-      -webkit-background-clip: text;
-      color: transparent;
-      margin: 0;
-    }
-    header p {
-      color: #4a4a4a;
-      font-style: italic;
-      margin-top: 0.4rem;
-      font-size: 1rem;
-    }
+  main.container{max-width:1100px;margin:12px auto;padding:20px;border-radius:var(--radius);background:var(--card);
+                 box-shadow:0 10px 40px rgba(30,50,120,0.08);}
 
-    .main-card {
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 40px rgba(70, 100, 180, 0.1);
-      max-width: 960px;
-      width: 90%;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
+  .hero{display:flex;flex-wrap:wrap;align-items:center;gap:24px;}
+  .hero-text{flex:1 1 480px;min-width:260px}
+  h2{font-size:26px;margin:0 0 8px;color:#142242}
+  .lead{font-size:17px;color:var(--muted);line-height:1.6}
 
-    .hero {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-    }
+  /* Bigger readable labels */
+  .label{font-weight:600;color:#16325a;margin-top:12px;font-size:15px}
+  .color-samples{display:flex;gap:14px;margin-top:12px;align-items:center}
+  .sample{width:68px;height:68px;border-radius:12px;border:1px solid rgba(20,30,80,0.04);box-shadow:0 8px 18px rgba(20,30,80,0.04)}
+  .cool{background:linear-gradient(135deg,#8a9cff,#c5d0ff)}
+  .warm{background:linear-gradient(135deg,#ffffff,#f7f7f7)}
+  .temp-note{font-size:15px;color:#374a6b;margin-top:6px}
 
-    .hero-text {
-      flex: 1 1 420px;
-    }
+  /* Controls */
+  .controls{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  select,input[type=number]{padding:10px 12px;border-radius:10px;border:1px solid #e6e9fb;font-size:15px}
+  button.btn{background:var(--accent);color:white;border:none;padding:12px 16px;border-radius:10px;font-weight:700;
+             cursor:pointer;font-size:15px;box-shadow:0 10px 24px rgba(85,122,255,0.14)}
+  button.ghost{background:transparent;border:1px solid rgba(20,30,80,0.06);color:#21406d;padding:10px 12px;border-radius:10px;cursor:pointer}
 
-    .hero-text h2 {
-      margin-top: 0;
-      font-size: 1.7rem;
-      color: #222;
-    }
+  /* Elephant image area */
+  .hero-media{flex:0 0 360px;position:relative;display:flex;justify-content:center;align-items:flex-end;min-width:260px}
+  .product-img{width:360px;max-width:100%;border-radius:16px;box-shadow:0 18px 40px rgba(20,30,80,0.12)}
 
-    .lead {
-      font-size: 1.05rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
+  /* Speech bubble modal above elephant */
+  .speech-bubble{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(100% + 14px);
+                 background:linear-gradient(180deg,#ffffff,#f2f6ff);border-radius:12px;padding:12px 14px;box-shadow:0 14px 40px rgba(20,30,80,0.12);
+                 display:none;max-width:300px;text-align:center}
+  .speech-bubble::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);border-width:10px;border-style:solid;
+                         border-color:#f2f6ff transparent transparent transparent;}
+  .speech-bubble h4{margin:0 0 6px;font-size:16px;color:#19306a}
+  .speech-bubble p{margin:0;color:#2a405e;font-size:15px}
 
-    .color-samples {
-      display: flex;
-      gap: 14px;
-      margin-top: 1rem;
-    }
-    .sample {
-      width: 60px;
-      height: 60px;
-      border-radius: 10px;
-      border: 2px solid #eee;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .cool { background: linear-gradient(135deg, #8a9cff, #c5d0ff); }
-    .warm { background: linear-gradient(135deg, #fff, #f7f7f7); }
+  /* Checkout modal backdrop */
+  .modal-backdrop{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(8,12,28,0.46);z-index:2000}
+  .modal{width:min(720px,94%);background:white;border-radius:12px;padding:18px;box-shadow:0 30px 80px rgba(20,30,80,0.35)}
 
-    .hero img {
-      flex: 0 0 300px;
-      max-width: 300px;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    }
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+  label.small{display:block;font-size:13px;color:#456; margin-bottom:6px}
+  input[type=text],input[type=email]{padding:10px;border-radius:10px;border:1px solid #eef3ff;font-size:15px;width:100%}
 
-    .buy-box {
-      background: linear-gradient(180deg, #fff, #f8f9ff);
-      border: 1px solid #e7eaff;
-      border-radius: 14px;
-      padding: 1.25rem;
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
+  footer{ttext-align:center;padding:18px 12px;margin-top:18px;color: #fff;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:10px;}
 
-    .price {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #1c2a55;
-    }
-
-    .small {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    select, input {
-      border: 1px solid #d5daf5;
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 0.95rem;
-    }
-
-    .buy-now {
-      background: var(--accent);
-      color: white;
-      border: none;
-      padding: 12px 16px;
-      border-radius: 10px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
-    .buy-now:hover {
-      transform: translateY(-2px);
-      background: var(--accent-2);
-    }
-
-    .two-col {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    .two-col > div {
-      flex: 1 1 420px;
-    }
-
-    ul {
-      margin-top: 0.5rem;
-      padding-left: 1.25rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.5rem 0;
-      color: white;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      width: 100%;
-      border-top-left-radius: 14px;
-      border-top-right-radius: 14px;
-    }
-  </style>
+  /* Responsive */
+  @media (max-width:860px){ .hero{flex-direction:column-reverse;} .hero-media{align-items:center} .speech-bubble{position:static;transform:none;margin-bottom:12px} header{justify-content:center} }
+</style>
 </head>
 <body>
   <header>
-    <h1>🌈 ThermoBuddy</h1>
-    <p>Invented by Allison, Emily, and Ella</p>
+    <img class="logo-img" src="data:image/png;base64:__LOGO__" alt="ThermoBuddy logo" />
+    <div class="site-title">
+      <h1 class="site-name">ThermoBuddy</h1>
+      <p class="site-tag">A color-changing desk buddy — by Allison, Emily &amp; Ella</p>
+    </div>
   </header>
 
-  <main class="main-card">
-    <section class="hero">
+  <main class="container" role="main">
+    <section class="hero" aria-labelledby="hero-heading">
       <div class="hero-text">
-        <h2>What is ThermoBuddy?</h2>
-        <p class="lead">
-          ThermoBuddy is a joyful 3D-printed desk companion that changes color with temperature — 
-          <strong>violet-blue</strong> under <strong>25°C / 77°F</strong> and <strong>white</strong> above <strong>25°C / 77°F</strong>. 
-          It teaches thermochromism and makes your desk feel alive.
+        <h2 id="hero-heading">What is ThermoBuddy?</h2>
+        <p class="lead" id="desc">
+          ThermoBuddy is a joyful 3D-printed desk companion that teaches thermochromism by changing color with temperature.
+          It appears <strong>violet-blue</strong> when cold (under <span id="tempC">25°C</span> / <span id="tempF">77°F</span>)
+          and <strong>white</strong> when warm (above <span id="tempC2">25°C</span> / <span id="tempF2">77°F</span>).
+          The ThermoBuddy elephant is designed for classrooms, maker fairs, and cozy study desks — a playful way to learn science.
         </p>
 
-        <div class="color-samples">
+        <div class="color-samples" aria-hidden="false">
           <div>
-            <div class="sample cool"></div>
-            <div class="small">Under 25°C / 77°F — Violet-Blue</div>
+            <div class="sample cool" aria-hidden="true"></div>
+            <div class="temp-note">Under 25°C / 77°F — Violet-Blue</div>
           </div>
           <div>
-            <div class="sample warm"></div>
-            <div class="small">Above 25°C / 77°F — White</div>
+            <div class="sample warm" aria-hidden="true"></div>
+            <div class="temp-note">Above 25°C / 77°F — White</div>
           </div>
         </div>
 
-        <p class="small" style="margin-top:1rem"><strong>Fun fact:</strong> Thermochromic pigments change their molecular
-        arrangement slightly when heated, changing how they reflect light — that’s why the color appears different!</p>
-
-        <div class="buy-box">
-          <div style="display:flex;justify-content:space-between;align-items:center">
-            <div>
-              <div class="price">$19.99</div>
-              <div class="small">Free demo checkout — no real payment collected</div>
-            </div>
-            <div style="text-align:right">
-              <div class="small">Ships worldwide</div>
-              <div class="small">Limited student edition</div>
-            </div>
-          </div>
-
-          <label for="styleSelect" class="small">Choose style</label>
-          <select id="styleSelect">
+        <div class="label">Choose style &amp; quantity</div>
+        <div class="controls" role="region" aria-label="purchase controls">
+          <select id="styleSelect" aria-label="Choose ThermoBuddy style">
             <option>Classic Violet-Blue</option>
             <option>Snow-White Edition</option>
             <option>Galaxy Glow Mix</option>
           </select>
-
-          <label for="qty" class="small">Quantity</label>
-          <input id="qty" type="number" min="1" value="1" />
-
-          <button class="buy-now">Buy It Now — Checkout</button>
-          <div class="small">Perfect for desks, classrooms, and maker fairs.</div>
+          <input id="qty" type="number" min="1" value="1" aria-label="Quantity" style="width:110px" />
+          <button id="buyNow" class="btn" title="Buy ThermoBuddy">Buy Now — $19.99</button>
+          <button id="sayHi" class="ghost" title="Say hi to ThermoBuddy">Say hi to ThermoBuddy 🐘</button>
         </div>
+
+        <p style="margin-top:14px;color:#324a72;font-size:15px">
+          <strong>Fun fact:</strong> Thermochromic pigments rearrange their molecules slightly with heat, changing how they reflect light.
+        </p>
       </div>
 
-      <!-- Embedded Elephant ThermoBuddy Image -->
-      <img src="data:image/png;base64,{{IMAGE_BASE64}}" alt="ThermoBuddy Elephant" />
-    </section>
-
-    <section class="two-col">
-      <div>
-        <h3>Educational activities</h3>
-        <ul>
-          <li>Measure the temperature where the color flips and graph your results.</li>
-          <li>Test different sleeve thicknesses — which changes color faster?</li>
-          <li>Mix pigments and document color transitions over time.</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Safety & materials</h3>
-        <ul>
-          <li>Use non-toxic thermochromic pigments meant for crafts or plastics.</li>
-          <li>3D print the shell in PLA or PETG and apply pigment to a visible panel.</li>
-          <li>All demos are low-voltage and child-friendly when supervised.</li>
-        </ul>
+      <div class="hero-media" id="heroMedia">
+        <div class="speech-bubble" id="speechBubble" role="dialog" aria-hidden="true">
+          <h4>Hi there! 🐘</h4>
+          <p>I'm ThermoBuddy — press my trunk to say hello back! 💙</p>
+        </div>
+        <img class="product-img" id="productImg" src="data:image/png;base64:__ELEPHANT__" alt="ThermoBuddy Elephant product photo" />
       </div>
     </section>
   </main>
 
+  <!-- Checkout Modal -->
+  <div class="modal-backdrop" id="checkoutBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-labelledby="checkoutTitle">
+      <h3 id="checkoutTitle">Demo Checkout — ThermoBuddy</h3>
+      <p style="color:#2f4a7a;margin-top:6px">This is a demo checkout. No real payments are processed.</p>
+
+      <form id="checkoutForm" onsubmit="return false" style="margin-top:12px">
+        <div class="form-grid">
+          <div>
+            <label class="small">First name</label>
+            <input id="firstName" type="text" placeholder="Allison" required />
+          </div>
+          <div>
+            <label class="small">Last name</label>
+            <input id="lastName" type="text" placeholder="Smith" required />
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <label class="small">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required />
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label class="small">Address</label>
+            <input id="addr" type="text" placeholder="123 Maker Lane" />
+          </div>
+          <div>
+            <label class="small">Country</label>
+            <select id="country"><option>United States</option><option>Canada</option><option>United Kingdom</option><option>Other</option></select>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:14px">
+          <button type="button" id="cancelBtn" class="ghost">Cancel</button>
+          <button type="button" id="confirmBtn" class="btn">Confirm Purchase</button>
+        </div>
+        <div style="margin-top:10px;color:#6a7fa0;font-size:13px">Demo only: we will not store or transmit your info.</div>
+      </form>
+    </div>
+  </div>
+
   <footer>
-    <small>© 2025 ThermoBuddy — Created by Allison, Emily & Ella 💖 — Demo store only</small>
+    <small>© 2025 ThermoBuddy — Created by Allison, Emily &amp; Ella — Demo site</small>
   </footer>
+
+<script>
+  // Utility: C -> F
+  function cToF(c){ return Math.round((c * 9/5) + 32); }
+
+  // Update displayed F values for clarity
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const cEls = document.querySelectorAll('#tempC, #tempC2');
+    const fEls = document.querySelectorAll('#tempF, #tempF2');
+    cEls.forEach(el => el.textContent = '25°C');
+    fEls.forEach(el => el.textContent = cToF(25) + '°F');
+  });
+
+  // Modal controls
+  const buyBtn = document.getElementById('buyNow');
+  const checkoutBackdrop = document.getElementById('checkoutBackdrop');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const confirmBtn = document.getElementById('confirmBtn');
+
+  buyBtn.addEventListener('click', ()=>{
+    checkoutBackdrop.style.display = 'flex';
+    checkoutBackdrop.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+  });
+  cancelBtn.addEventListener('click', closeCheckout);
+  checkoutBackdrop.addEventListener('click', (e)=>{ if(e.target === checkoutBackdrop) closeCheckout(); });
+  document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeCheckout(); });
+
+  function closeCheckout(){
+    checkoutBackdrop.style.display = 'none';
+    checkoutBackdrop.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+  }
+
+  confirmBtn.addEventListener('click', ()=>{
+    const first = document.getElementById('firstName').value || 'Friend';
+    const qty = parseInt(document.getElementById('qty').value || '1', 10);
+    const style = document.getElementById('styleSelect').value;
+    closeCheckout();
+    setTimeout(()=>{
+      alert(`${first}, thanks for your demo order!\\n\\nYou ordered ${qty} × ThermoBuddy (${style}).\\n\\nThis is a student demo; no real payment was processed.`);
+    }, 120);
+  });
+
+  // Say hi speech bubble behavior
+  const sayHiBtn = document.getElementById('sayHi');
+  const speech = document.getElementById('speechBubble');
+  const productImg = document.getElementById('productImg');
+  let speechVisible = false;
+
+  function showSpeech(){
+    speech.style.display = 'block';
+    speech.setAttribute('aria-hidden','false');
+    speechVisible = true;
+    setTimeout(()=>{ if(speechVisible) hideSpeech(); }, 6000);
+  }
+  function hideSpeech(){
+    speech.style.display = 'none';
+    speech.setAttribute('aria-hidden','true');
+    speechVisible = false;
+  }
+
+  sayHiBtn.addEventListener('click', ()=>{
+    productImg.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:450,iterations:1});
+    showSpeech();
+  });
+
+  speech.addEventListener('click', ()=>{
+    speech.innerHTML = '<h4>Trunk wave! 👋</h4><p>Great to meet you — stay cozy and curious!</p>';
+    setTimeout(hideSpeech, 3000);
+  });
+
+</script>
 </body>
 </html>
+""")
+
+# Insert base64 images
+html_content = html_template.replace("__LOGO__", logo_b64).replace("__ELEPHANT__", elephant_b64)
+
+out_path = Path("/mnt/data/index_improved.html")
+out_path.write_text(html_content, encoding="utf-8")
+str(out_path)
